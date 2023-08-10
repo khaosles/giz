@@ -73,7 +73,6 @@ func ToBytes(value any) ([]byte, error) {
 }
 
 // ToChar convert string to char slice.
-// Play: https://go.dev/play/p/JJ1SvbFkVdM
 func ToChar(s string) []string {
 	c := make([]string, 0)
 	if len(s) == 0 {
@@ -215,7 +214,6 @@ func ToInt(value any) (int64, error) {
 }
 
 // ToPointer returns a pointer to passed value.
-// Play: https://go.dev/play/p/ASf_etHNlw1
 func ToPointer[T any](value T) *T {
 	return &value
 }
@@ -233,7 +231,6 @@ func ToMap[T any, K comparable, V any](array []T, iteratee func(T) (K, V)) map[K
 
 // StructToMap convert struct to map, only convert exported struct field
 // map key is specified same as struct field tag `json` value.
-// Play: https://go.dev/play/p/KYGYJqNUBOI
 func StructToMap(value any) (map[string]any, error) {
 	return structs.ToMap(value)
 }
@@ -291,7 +288,6 @@ func EncodeByte(data any) ([]byte, error) {
 }
 
 // DecodeByte decode byte slice data to target object.
-// Play: https://go.dev/play/p/zI6xsmuQRbn
 func DecodeByte(data []byte, target any) error {
 	buffer := bytes.NewBuffer(data)
 	decoder := gob.NewDecoder(buffer)
