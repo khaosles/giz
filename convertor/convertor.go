@@ -141,11 +141,6 @@ func ToString(value any) string {
 			return ""
 		}
 		return string(b)
-
-		// todo: maybe we should't supprt other type conversion
-		// v := reflect.ValueOf(value)
-		// log.Panicf("Unsupported data type: %s ", v.String())
-		// return ""
 	}
 }
 
@@ -231,7 +226,7 @@ func ToMap[T any, K comparable, V any](array []T, iteratee func(T) (K, V)) map[K
 
 // StructToMap convert struct to map, only convert exported struct field
 // map key is specified same as struct field tag `json` value.
-func StructToMap(value any) (map[string]any, error) {
+func StructToMap(value any) map[string]string {
 	return structs.ToMap(value)
 }
 
@@ -310,30 +305,34 @@ func DeepClone[T any](src T) T {
 }
 
 // CopyProperties copies each field from the source into the destination. It recursively copies struct pointers and interfaces that contain struct pointers.
-// use json.Marshal/Unmarshal, so json tag should be set for fields of dst and src struct.
-func CopyProperties[T, U any](dst T, src U) error {
-	dstType, srcType := reflect.TypeOf(dst), reflect.TypeOf(src)
-
-	if dstType.Kind() != reflect.Ptr || dstType.Elem().Kind() != reflect.Struct {
+func CopyProperties[T, U any](dst *U, src T) error {
+	// get the struct types and values using reflect
+	srcType := reflect.TypeOf(src)
+	srcValue := reflect.ValueOf(src)
+	dstType := reflect.TypeOf(*dst)
+	dstValue := reflect.ValueOf(dst).Elem()
+	if dstValue.Kind() != reflect.Struct {
 		return errors.New("CopyProperties: parameter dst should be struct pointer")
 	}
-
-	if srcType.Kind() == reflect.Ptr {
+	if srcValue.Kind() == reflect.Ptr {
 		srcType = srcType.Elem()
+		srcValue = srcValue.Elem()
 	}
-	if srcType.Kind() != reflect.Struct {
-		return errors.New("CopyProperties: parameter src should be a struct or struct pointer")
-	}
-
-	bytes, err := json.Marshal(src)
-	if err != nil {
-		return fmt.Errorf("CopyProperties: unable to marshal src: %s", err)
-	}
-	err = json.Unmarshal(bytes, dst)
-	if err != nil {
-		return fmt.Errorf("CopyProperties: unable to unmarshal into dst: %s", err)
+	if srcValue.Kind() != reflect.Struct {
+		return errors.New("CopyProperties: parameter src should be struct pointer")
 	}
 
+	// Iterate over struct src
+	for i := 0; i < srcType.NumField(); i++ {
+		// get filed name and value
+		fieldName := srcType.Field(i).Name
+		fieldValue := srcValue.Field(i).Interface()
+		// wether has the same field in t2
+		if _, ok := dstType.FieldByName(fieldName); ok {
+			// set t2
+			dstValue.FieldByName(fieldName).Set(reflect.ValueOf(fieldValue))
+		}
+	}
 	return nil
 }
 
