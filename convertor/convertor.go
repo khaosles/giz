@@ -15,6 +15,8 @@ import (
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
+
+	"github.com/khaosles/giz/structs"
 )
 
 /*
