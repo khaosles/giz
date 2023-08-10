@@ -225,7 +225,7 @@ func (c *cloner) cloneStruct(v reflect.Value) reflect.Value {
 	return clonedStruct
 }
 
-func compareValue(operator string, left, right any) bool {
+func compareValue(operator op, left, right any) bool {
 	leftType, rightType := reflect.TypeOf(left), reflect.TypeOf(right)
 
 	if leftType.Kind() != rightType.Kind() {
@@ -245,7 +245,7 @@ func compareValue(operator string, left, right any) bool {
 	return false
 }
 
-func compareRefValue(operator string, leftObj, rightObj any, kind reflect.Kind) bool {
+func compareRefValue(operator op, leftObj, rightObj any, kind reflect.Kind) bool {
 	leftVal, rightVal := reflect.ValueOf(leftObj), reflect.ValueOf(rightObj)
 
 	switch kind {
@@ -365,7 +365,7 @@ func objectsAreEqual(expected, actual interface{}) bool {
 }
 
 // compareBasic compare basic value: integer, float, string, bool
-func compareBasicValue(operator string, leftValue, rightValue any) bool {
+func compareBasicValue(operator op, leftValue, rightValue any) bool {
 	if leftValue == nil && rightValue == nil && operator == equal {
 		return true
 	}

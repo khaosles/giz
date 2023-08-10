@@ -13,12 +13,14 @@ import (
 */
 
 // operator type
+type op string
+
 const (
-	equal          = "eq"
-	lessThan       = "lt"
-	greaterThan    = "gt"
-	lessOrEqual    = "le"
-	greaterOrEqual = "ge"
+	equal          op = "eq"
+	lessThan          = "lt"
+	greaterThan       = "gt"
+	lessOrEqual       = "le"
+	greaterOrEqual    = "ge"
 )
 
 var (

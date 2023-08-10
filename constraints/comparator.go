@@ -8,5 +8,9 @@ package constraints
 */
 
 type Comparator interface {
+	// Compare .
+	// if lhs < rhs  return < 0
+	// if lhs = rhs  return = 0
+	// if lhs > rhs  return > 0
 	Compare(lhs, rhs any) int
 }
