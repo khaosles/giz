@@ -2,13 +2,15 @@ module github.com/khaosles/giz
 
 go 1.20
 
-require golang.org/x/text v0.12.0
+require (
+	github.com/robfig/cron/v3 v3.0.1
+	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb
+	golang.org/x/text v0.12.0
+)
 
 require (
-	github.com/bytedance/sonic v1.10.0 // indirect
-	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
-	github.com/chenzhuoyu/iasm v0.9.0 // indirect
-	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
-	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
-	golang.org/x/arch v0.0.0-20210923205945-b76863e36670 // indirect
+	github.com/aquilax/truncate v1.0.0 // indirect
+	github.com/google/uuid v1.2.0 // indirect
+	github.com/lithammer/shortuuid/v3 v3.0.7 // indirect
+	github.com/satori/go.uuid v1.2.0 // indirect
 )

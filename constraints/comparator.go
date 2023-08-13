@@ -7,10 +7,10 @@ package constraints
    @Desc:
 */
 
-type Comparator interface {
+type Comparator[T any] interface {
 	// Compare .
 	// if lhs < rhs  return < 0
 	// if lhs = rhs  return = 0
 	// if lhs > rhs  return > 0
-	Compare(lhs, rhs any) int
+	Compare(lhs, rhs T) int
 }
