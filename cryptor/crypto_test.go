@@ -1,6 +1,9 @@
 package cryptor
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 /*
    @File: crypto_test.go
@@ -9,7 +12,7 @@ import "fmt"
    @Desc:
 */
 
-func ExampleAesEcbEncrypt() {
+func TestAesEcbEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -23,7 +26,7 @@ func ExampleAesEcbEncrypt() {
 	// hello
 }
 
-func ExampleAesEcbDecrypt() {
+func TestAesEcbDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -37,7 +40,7 @@ func ExampleAesEcbDecrypt() {
 	// hello
 }
 
-func ExampleAesCbcEncrypt() {
+func TestAesCbcEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -51,7 +54,7 @@ func ExampleAesCbcEncrypt() {
 	// hello
 }
 
-func ExampleAesCbcDecrypt() {
+func TestAesCbcDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -65,7 +68,7 @@ func ExampleAesCbcDecrypt() {
 	// hello
 }
 
-func ExampleAesCtrCrypt() {
+func TestAesCtrCrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -78,7 +81,20 @@ func ExampleAesCtrCrypt() {
 	// hello
 }
 
-func ExampleAesCfbEncrypt() {
+func TestAesCfbEncrypt(t *testing.T) {
+	data := "hello"
+	key := "abcdefghijklmnop"
+
+	encrypted := AesCfbEncrypt([]byte(data), []byte(key))
+	decrypted := AesCfbDecrypt(encrypted, []byte(key))
+
+	fmt.Println(string(decrypted))
+
+	// Output:
+	// hello
+}
+
+func TestAesCfbDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -92,21 +108,7 @@ func ExampleAesCfbEncrypt() {
 	// hello
 }
 
-func ExampleAesCfbDecrypt() {
-	data := "hello"
-	key := "abcdefghijklmnop"
-
-	encrypted := AesCfbEncrypt([]byte(data), []byte(key))
-
-	decrypted := AesCfbDecrypt(encrypted, []byte(key))
-
-	fmt.Println(string(decrypted))
-
-	// Output:
-	// hello
-}
-
-func ExampleAesOfbEncrypt() {
+func TestAesOfbEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -120,7 +122,7 @@ func ExampleAesOfbEncrypt() {
 	// hello
 }
 
-func ExampleAesOfbDecrypt() {
+func TestAesOfbDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefghijklmnop"
 
@@ -134,7 +136,7 @@ func ExampleAesOfbDecrypt() {
 	// hello
 }
 
-func ExampleDesEcbEncrypt() {
+func TestDesEcbEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -148,7 +150,7 @@ func ExampleDesEcbEncrypt() {
 	// hello
 }
 
-func ExampleDesEcbDecrypt() {
+func TestDesEcbDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -162,7 +164,7 @@ func ExampleDesEcbDecrypt() {
 	// hello
 }
 
-func ExampleDesCbcEncrypt() {
+func TestDesCbcEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -176,7 +178,7 @@ func ExampleDesCbcEncrypt() {
 	// hello
 }
 
-func ExampleDesCbcDecrypt() {
+func TestDesCbcDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -190,7 +192,7 @@ func ExampleDesCbcDecrypt() {
 	// hello
 }
 
-func ExampleDesCtrCrypt() {
+func TestDesCtrCrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -203,7 +205,7 @@ func ExampleDesCtrCrypt() {
 	// hello
 }
 
-func ExampleDesCfbEncrypt() {
+func TestDesCfbEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -217,7 +219,7 @@ func ExampleDesCfbEncrypt() {
 	// hello
 }
 
-func ExampleDesCfbDecrypt() {
+func TestDesCfbDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -231,7 +233,7 @@ func ExampleDesCfbDecrypt() {
 	// hello
 }
 
-func ExampleDesOfbEncrypt() {
+func TestDesOfbEncrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -245,7 +247,7 @@ func ExampleDesOfbEncrypt() {
 	// hello
 }
 
-func ExampleDesOfbDecrypt() {
+func TestDesOfbDecrypt(t *testing.T) {
 	data := "hello"
 	key := "abcdefgh"
 
@@ -259,7 +261,7 @@ func ExampleDesOfbDecrypt() {
 	// hello
 }
 
-func ExampleBase64StdEncode() {
+func TestBase64StdEncode(t *testing.T) {
 	base64Str := Base64StdEncode("hello")
 
 	fmt.Println(base64Str)
@@ -268,7 +270,7 @@ func ExampleBase64StdEncode() {
 	// aGVsbG8=
 }
 
-func ExampleBase64StdDecode() {
+func TestBase64StdDecode(t *testing.T) {
 	str := Base64StdDecode("aGVsbG8=")
 
 	fmt.Println(str)
@@ -277,7 +279,7 @@ func ExampleBase64StdDecode() {
 	// hello
 }
 
-func ExampleHmacMd5() {
+func TestHmacMd5(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -288,7 +290,7 @@ func ExampleHmacMd5() {
 	// e834306eab892d872525d4918a7a639a
 }
 
-func ExampleHmacMd5WithBase64() {
+func TestHmacMd5WithBase64(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -299,7 +301,7 @@ func ExampleHmacMd5WithBase64() {
 	// 6DQwbquJLYclJdSRinpjmg==
 }
 
-func ExampleHmacSha1() {
+func TestHmacSha1(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -310,7 +312,7 @@ func ExampleHmacSha1() {
 	// 5c6a9db0cccb92e36ed0323fd09b7f936de9ace0
 }
 
-func ExampleHmacSha1WithBase64() {
+func TestHmacSha1WithBase64(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -321,7 +323,7 @@ func ExampleHmacSha1WithBase64() {
 	// XGqdsMzLkuNu0DI/0Jt/k23prOA=
 }
 
-func ExampleHmacSha256() {
+func TestHmacSha256(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -332,7 +334,7 @@ func ExampleHmacSha256() {
 	// 315bb93c4e989862ba09cb62e05d73a5f376cb36f0d786edab0c320d059fde75
 }
 
-func ExampleHmacSha256WithBase64() {
+func TestHmacSha256WithBase64(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -343,7 +345,7 @@ func ExampleHmacSha256WithBase64() {
 	// MVu5PE6YmGK6Ccti4F1zpfN2yzbw14btqwwyDQWf3nU=
 }
 
-func ExampleHmacSha512() {
+func TestHmacSha512(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -354,7 +356,7 @@ func ExampleHmacSha512() {
 	// dd8f1290a9dd23d354e2526d9a2e9ce8cffffdd37cb320800d1c6c13d2efc363288376a196c5458daf53f8e1aa6b45a6d856303d5c0a2064bff9785861d48cfc
 }
 
-func ExampleHmacSha512WithBase64() {
+func TestHmacSha512WithBase64(t *testing.T) {
 	str := "hello"
 	key := "12345"
 
@@ -365,7 +367,7 @@ func ExampleHmacSha512WithBase64() {
 	// 3Y8SkKndI9NU4lJtmi6c6M///dN8syCADRxsE9Lvw2Mog3ahlsVFja9T+OGqa0Wm2FYwPVwKIGS/+XhYYdSM/A==
 }
 
-func ExampleMd5String() {
+func TestMd5String(t *testing.T) {
 	md5Str := Md5String("hello")
 	fmt.Println(md5Str)
 
@@ -373,7 +375,7 @@ func ExampleMd5String() {
 	// 5d41402abc4b2a76b9719d911017c592
 }
 
-func ExampleMd5StringWithBase64() {
+func TestMd5StringWithBase64(t *testing.T) {
 	md5Str := Md5StringWithBase64("hello")
 	fmt.Println(md5Str)
 
@@ -381,7 +383,7 @@ func ExampleMd5StringWithBase64() {
 	// XUFAKrxLKna5cZ2REBfFkg==
 }
 
-func ExampleMd5Byte() {
+func TestMd5Byte(t *testing.T) {
 	md5Str := Md5Byte([]byte{'a'})
 	fmt.Println(md5Str)
 
@@ -389,7 +391,7 @@ func ExampleMd5Byte() {
 	// 0cc175b9c0f1b6a831c399e269772661
 }
 
-func ExampleMd5ByteWithBase64() {
+func TestMd5ByteWithBase64(t *testing.T) {
 	md5Str := Md5ByteWithBase64([]byte("hello"))
 	fmt.Println(md5Str)
 
@@ -397,7 +399,7 @@ func ExampleMd5ByteWithBase64() {
 	// XUFAKrxLKna5cZ2REBfFkg==
 }
 
-func ExampleSha1() {
+func TestSha1(t *testing.T) {
 	result := Sha1("hello")
 	fmt.Println(result)
 
@@ -405,7 +407,7 @@ func ExampleSha1() {
 	// aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d
 }
 
-func ExampleSha1WithBase64() {
+func TestSha1WithBase64(t *testing.T) {
 	result := Sha1WithBase64("hello")
 	fmt.Println(result)
 
@@ -413,7 +415,7 @@ func ExampleSha1WithBase64() {
 	// qvTGHdzF6KLavt4PO0gs2a6pQ00=
 }
 
-func ExampleSha256() {
+func TestSha256(t *testing.T) {
 	result := Sha256("hello")
 	fmt.Println(result)
 
@@ -421,7 +423,7 @@ func ExampleSha256() {
 	// 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
 }
 
-func ExampleSha256WithBase64() {
+func TestSha256WithBase64(t *testing.T) {
 	result := Sha256WithBase64("hello")
 	fmt.Println(result)
 
@@ -429,7 +431,7 @@ func ExampleSha256WithBase64() {
 	// LPJNul+wow4m6DsqxbninhsWHlwfp0JecwQzYpOLmCQ=
 }
 
-func ExampleSha512() {
+func TestSha512(t *testing.T) {
 	result := Sha512("hello")
 	fmt.Println(result)
 
@@ -437,7 +439,7 @@ func ExampleSha512() {
 	// 9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043
 }
 
-func ExampleSha512WithBase64() {
+func TestSha512WithBase64(t *testing.T) {
 	result := Sha512WithBase64("hello")
 	fmt.Println(result)
 
