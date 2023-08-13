@@ -16,7 +16,7 @@ import (
 
 type JsonArray struct {
 	s     []*Value
-	mutex sync.Mutex
+	mutex sync.RWMutex
 }
 
 func (j *JsonArray) Get(index int) (*Value, error) {

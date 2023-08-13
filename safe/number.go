@@ -15,10 +15,10 @@ import (
 
 type Number[T g.Numeric] struct {
 	value T
-	mutex sync.Mutex
+	mutex sync.RWMutex
 }
 
-func NewSafeNumber[T g.Numeric](i T) *Number[T] {
+func NewNumber[T g.Numeric](i T) *Number[T] {
 	return &Number[T]{value: i}
 }
 

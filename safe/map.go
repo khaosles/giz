@@ -13,10 +13,10 @@ import (
 
 type Map[K comparable, V any] struct {
 	m     map[K]V
-	mutex sync.Mutex
+	mutex sync.RWMutex
 }
 
-func NewSafeMap[K comparable, V any]() *Map[K, V] {
+func NewMap[K comparable, V any]() *Map[K, V] {
 	return &Map[K, V]{m: map[K]V{}}
 }
 

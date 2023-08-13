@@ -17,7 +17,7 @@ import (
 
 type JsonObject struct {
 	m     map[string]*Value
-	mutex sync.Mutex
+	mutex sync.RWMutex
 }
 
 func NewJsonObject() *JsonObject {

@@ -33,7 +33,7 @@ type LRUCache[K comparable, V any] struct {
 	tail     *lruNode[K, V]
 	capacity int
 	length   int
-	mutex    sync.Mutex
+	mutex    sync.RWMutex
 }
 
 // NewLRUCache creates a LRUCache pointer instance.
