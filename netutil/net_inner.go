@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
@@ -173,11 +172,11 @@ func setBodyByte(req *http.Request, body any) error {
 		if _, err := io.Copy(buf, b); err != nil {
 			return err
 		}
-		req.Body = ioutil.NopCloser(buf)
+		req.Body = io.NopCloser(buf)
 		req.ContentLength = int64(buf.Len())
 	case []byte:
 		bodyReader = bytes.NewReader(b)
-		req.Body = ioutil.NopCloser(bodyReader)
+		req.Body = io.NopCloser(bodyReader)
 		req.ContentLength = int64(bodyReader.Len())
 	case map[string]interface{}:
 		values := url.Values{}
@@ -185,11 +184,11 @@ func setBodyByte(req *http.Request, body any) error {
 			values.Set(k, fmt.Sprintf("%v", b[k]))
 		}
 		bodyReader = bytes.NewReader([]byte(values.Encode()))
-		req.Body = ioutil.NopCloser(bodyReader)
+		req.Body = io.NopCloser(bodyReader)
 		req.ContentLength = int64(bodyReader.Len())
 	case url.Values:
 		bodyReader = bytes.NewReader([]byte(b.Encode()))
-		req.Body = ioutil.NopCloser(bodyReader)
+		req.Body = io.NopCloser(bodyReader)
 		req.ContentLength = int64(bodyReader.Len())
 	default:
 		return fmt.Errorf("invalid body type: %T", b)
