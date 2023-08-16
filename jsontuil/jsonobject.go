@@ -5,7 +5,6 @@ import (
 	"sync"
 
 	"github.com/bytedance/sonic"
-	glog "github.com/khaosles/gtools2/core/log"
 )
 
 /*
@@ -143,7 +142,6 @@ func (j *JsonObject) String() string {
 	}
 	data, err := sonic.Marshal(j.m)
 	if err != nil {
-		glog.Error(err)
 		return ""
 	}
 	return string(data)
