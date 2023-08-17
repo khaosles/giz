@@ -5,6 +5,8 @@ import (
 	"errors"
 	"reflect"
 	"strings"
+
+	"github.com/iancoleman/strcase"
 )
 
 /*
@@ -143,4 +145,15 @@ func CopyProperties[T, U any](dst *U, src T) error {
 		}
 	}
 	return nil
+}
+
+func SetField(obj interface{}, fieldName string, value interface{}) {
+	v := reflect.ValueOf(obj).Elem()               // 获取结构体的反射值
+	f := v.FieldByName(strcase.ToCamel(fieldName)) // 获取属性的反射值
+	if f.IsValid() && f.CanSet() {                 // 检查属性是否存在且可设置
+		val := reflect.ValueOf(value) // 获取要赋的值的反射值
+		if f.Type() == val.Type() {   // 检查值的类型是否与属性类型匹配
+			f.Set(val) // 给属性赋值
+		}
+	}
 }
