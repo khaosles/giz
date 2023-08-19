@@ -107,6 +107,17 @@ func (l *LRUCache[K, V]) Len() int {
 	return l.length
 }
 
+// Clear removes all items from the cache.
+func (l *LRUCache[K, V]) Clear() {
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
+
+	l.cache = make(map[K]*lruNode[K, V])
+	l.head = nil
+	l.tail = nil
+	l.length = 0
+}
+
 func (l *LRUCache[K, V]) addNode(node *lruNode[K, V]) {
 	if l.tail != nil {
 		l.tail.next = node

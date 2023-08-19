@@ -3,6 +3,8 @@ package safe
 import (
 	"fmt"
 	"sync"
+
+	"github.com/bytedance/sonic"
 )
 
 /*
@@ -111,6 +113,28 @@ func (s *OrderedSet[T]) Foreach(callback func(i int, val T) bool) {
 			break
 		}
 	}
+}
+
+// FromList converts a list to an OrderedSet.
+func (s *OrderedSet[T]) FromList(list []T) {
+	for _, item := range list {
+		s.Add(item)
+	}
+}
+
+// MarshalJSON implements the json.Marshaler interface.
+func (s *OrderedSet[T]) MarshalJSON() ([]byte, error) {
+	return sonic.Marshal(s.Values())
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface.
+func (s *OrderedSet[T]) UnmarshalJSON(data []byte) error {
+	var list []T
+	if err := sonic.Unmarshal(data, &list); err != nil {
+		return err
+	}
+	s.FromList(list)
+	return nil
 }
 
 // Put adds a single item into the set
