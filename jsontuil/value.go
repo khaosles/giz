@@ -28,6 +28,16 @@ func (v *Value) MarshalJSON() ([]byte, error) {
 	return sonic.Marshal(v.data)
 }
 
+func (v *Value) UnmarshalJSON(data []byte) error {
+	var dynamicData interface{}
+	err := sonic.Unmarshal(data, &dynamicData)
+	if err != nil {
+		return err
+	}
+	v.data = dynamicData
+	return nil
+}
+
 func (v *Value) JsonObject() *JsonObject {
 	if _, ok := v.data.(map[string]interface{}); !ok {
 		panic(ValueTransformTypeError{JSONOBJECTTYPE})

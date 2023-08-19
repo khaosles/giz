@@ -27,7 +27,7 @@ func (j *JsonArray) Get(index int) (*Value, error) {
 	return j.s[index], nil
 }
 
-func (j *JsonArray) Value() []*Value {
+func (j *JsonArray) Values() []*Value {
 	defer j.mutex.Unlock()
 	j.mutex.Lock()
 	return j.s
@@ -143,6 +143,10 @@ func (j *JsonArray) GetNullBoolean(index int) (*Boolean, error) {
 	return val.NullBoolean()
 }
 
+func (j *JsonArray) Len() int {
+	return len(j.s)
+}
+
 func (j *JsonArray) String() string {
 	defer j.mutex.Unlock()
 	j.mutex.Lock()
@@ -154,4 +158,22 @@ func (j *JsonArray) String() string {
 		return ""
 	}
 	return string(data)
+}
+
+// MarshalJSON implements the json.Marshaler interface for JsonArray.
+func (j *JsonArray) MarshalJSON() ([]byte, error) {
+	defer j.mutex.RUnlock()
+	j.mutex.RLock()
+	return sonic.Marshal(j.s)
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for JsonArray.
+func (j *JsonArray) UnmarshalJSON(data []byte) error {
+	defer j.mutex.Unlock()
+	j.mutex.Lock()
+	j.s = make([]*Value, 0) // Reset the
+	if err := sonic.Unmarshal(data, &j.s); err != nil {
+		return err
+	}
+	return nil
 }

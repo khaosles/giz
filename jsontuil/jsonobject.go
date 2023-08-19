@@ -147,7 +147,7 @@ func (j *JsonObject) String() string {
 	return string(data)
 }
 
-func (j *JsonObject) Value() map[string]*Value {
+func (j *JsonObject) Values() map[string]*Value {
 	defer j.mutex.Unlock()
 	j.mutex.Lock()
 	return j.m
@@ -170,4 +170,22 @@ func (j *JsonObject) Sort() *JsonObject {
 	}
 	j.m = newM
 	return j
+}
+
+// MarshalJSON implements the json.Marshaler interface for JsonObject.
+func (j *JsonObject) MarshalJSON() ([]byte, error) {
+	defer j.mutex.RUnlock()
+	j.mutex.RLock()
+	return sonic.Marshal(j.m)
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface for JsonObject.
+func (j *JsonObject) UnmarshalJSON(data []byte) error {
+	defer j.mutex.Unlock()
+	j.mutex.Lock()
+	j.m = make(map[string]*Value) // Reset the map
+	if err := sonic.Unmarshal(data, &j.m); err != nil {
+		return err
+	}
+	return nil
 }
