@@ -1,4 +1,4 @@
-package jsontuil
+package gjson
 
 import (
 	"github.com/bytedance/sonic"
