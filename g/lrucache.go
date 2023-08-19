@@ -73,7 +73,7 @@ func (l *LRUCache[K, V]) Put(key K, value V) {
 		l.cache[key] = newNode
 		l.addNode(newNode)
 
-		if l.capacity != -1 && len(l.cache) > l.capacity {
+		if l.capacity < 1 && len(l.cache) > l.capacity {
 			oldKey := l.deleteNode(l.head)
 			delete(l.cache, oldKey)
 		}
