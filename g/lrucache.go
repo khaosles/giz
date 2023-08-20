@@ -107,6 +107,16 @@ func (l *LRUCache[K, V]) Len() int {
 	return l.length
 }
 
+// ModifyAll applies a modification function to each value in the cache.
+func (l *LRUCache[K, V]) ModifyAll(cb func(value *V)) {
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
+
+	for _, node := range l.cache {
+		cb(&node.value)
+	}
+}
+
 // Clear removes all items from the cache.
 func (l *LRUCache[K, V]) Clear() {
 	l.mutex.Lock()
