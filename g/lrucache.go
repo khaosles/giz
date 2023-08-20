@@ -107,8 +107,8 @@ func (l *LRUCache[K, V]) Len() int {
 	return l.length
 }
 
-// ModifyAll applies a modification function to each value in the cache.
-func (l *LRUCache[K, V]) ModifyAll(cb func(value V)) {
+// Foreach applies a modification function to each value in the cache.
+func (l *LRUCache[K, V]) Foreach(cb func(value V)) {
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
 
