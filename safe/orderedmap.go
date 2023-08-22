@@ -128,6 +128,12 @@ func (m *OrderedMap[K, V]) Values() []V {
 	return values
 }
 
+func (m *OrderedMap[K, V]) Data() map[K]V {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	return m.store
+}
+
 // String implements Stringer interface.
 //
 // Prints the map string representation, a concatenated string of all its
