@@ -14,7 +14,7 @@ import (
 
 type Slice[T any] struct {
 	v   []*T
-	mu  sync.RWMutex
+	mu  sync.Mutex
 	len int
 }
 

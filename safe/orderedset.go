@@ -20,7 +20,7 @@ type OrderedSet[T any] struct {
 	currentIndex int
 
 	// mu Mutex protects data structures below.
-	mu sync.RWMutex
+	mu sync.Mutex
 
 	// index is the Set list of keys.
 	index map[any]int

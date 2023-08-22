@@ -15,7 +15,7 @@ import (
 // OrderedMap represents an associative array or map abstract data type.
 type OrderedMap[K comparable, V any] struct {
 	// mu Mutex protects data structures below.
-	mu sync.RWMutex
+	mu sync.Mutex
 
 	// keys is the Set list of keys.
 	keys []K

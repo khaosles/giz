@@ -13,7 +13,7 @@ import (
 
 type Map[K comparable, V any] struct {
 	m     map[K]V
-	mutex sync.RWMutex
+	mutex sync.Mutex
 }
 
 func NewMap[K comparable, V any]() *Map[K, V] {
