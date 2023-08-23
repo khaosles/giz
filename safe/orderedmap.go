@@ -49,8 +49,8 @@ func (m *OrderedMap[K, V]) Put(key K, value V) {
 
 // Get returns the value of a key from the OrderedMap.
 func (m *OrderedMap[K, V]) Get(key K) (value V, ok bool) {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 
 	value, ok = m.store[key]
 	return value, ok
@@ -92,34 +92,46 @@ func (m *OrderedMap[K, V]) Foreach(callback func(key K, value V) bool) {
 	}
 }
 
+// ForeachR iter map only read.
+func (m *OrderedMap[K, V]) ForeachR(callback func(key K, value V) bool) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	for k, v := range m.store {
+		if !callback(k, v) {
+			break
+		}
+	}
+}
+
 // Size return the map number of key-value pairs.
 func (m *OrderedMap[K, V]) Size() int {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 
 	return len(m.store)
 }
 
 // Empty return if the map in empty or not.
 func (m *OrderedMap[K, V]) Empty() bool {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 
 	return len(m.store) == 0
 }
 
 // Keys return the keys in the map in insertion order.
 func (m *OrderedMap[K, V]) Keys() []K {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 
 	return m.keys
 }
 
 // Values return the values in the map in insertion order.
 func (m *OrderedMap[K, V]) Values() []V {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 
 	values := make([]V, len(m.store))
 	for i, key := range m.keys {
@@ -129,8 +141,8 @@ func (m *OrderedMap[K, V]) Values() []V {
 }
 
 func (m *OrderedMap[K, V]) Data() map[K]V {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 	return m.store
 }
 
@@ -139,8 +151,8 @@ func (m *OrderedMap[K, V]) Data() map[K]V {
 // Prints the map string representation, a concatenated string of all its
 // string representation values in insertion order.
 func (m *OrderedMap[K, V]) String() string {
-	m.mu.Lock()
-	defer m.mu.Unlock()
+	m.mu.RLock()
+	defer m.mu.RUnlock()
 
 	var result string
 	for i, key := range m.keys {

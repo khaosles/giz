@@ -49,8 +49,8 @@ func NewLRUCache[K comparable, V any](capacity int) *LRUCache[K, V] {
 
 // Get value of key from lru cache.
 func (l *LRUCache[K, V]) Get(key K) (V, bool) {
-	l.mutex.Lock()
-	defer l.mutex.Unlock()
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
 
 	var value V
 	node, ok := l.cache[key]
@@ -101,16 +101,16 @@ func (l *LRUCache[K, V]) Delete(key K) bool {
 
 // Len returns the number of items in the cache.
 func (l *LRUCache[K, V]) Len() int {
-	l.mutex.Lock()
-	defer l.mutex.Unlock()
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
 
 	return l.length
 }
 
 // Foreach applies a modification function to each value in the cache.
 func (l *LRUCache[K, V]) Foreach(cb func(value V)) {
-	l.mutex.Lock()
-	defer l.mutex.Unlock()
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
 
 	for _, node := range l.cache {
 		cb(node.value)

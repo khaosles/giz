@@ -32,8 +32,8 @@ func (s *Map[K, V]) HasKey(key K) bool {
 }
 
 func (s *Map[K, V]) Get(key K) (V, bool) {
-	s.mutex.Lock()
-	defer s.mutex.Unlock()
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
 	if !s.HasKey(key) {
 		return *new(V), false
 	}
@@ -47,14 +47,14 @@ func (s *Map[K, V]) Del(key K) {
 }
 
 func (s *Map[K, V]) Len() int {
-	s.mutex.Lock()
-	defer s.mutex.Unlock()
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
 	return len(s.m)
 }
 
 func (s *Map[K, V]) Value() map[K]V {
-	s.mutex.Lock()
-	defer s.mutex.Unlock()
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
 	return s.m
 }
 

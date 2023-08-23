@@ -45,8 +45,8 @@ func (s *Slice[T]) Pop(i int) error {
 
 // Get 获去元素
 func (s *Slice[T]) Get(i int) (*T, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	if i < s.len {
 		return nil, fmt.Errorf("index %d out of bounds for length %d", i, s.len)
 	}
@@ -55,8 +55,8 @@ func (s *Slice[T]) Get(i int) (*T, error) {
 
 // Iter 获得一个迭代体
 func (s *Slice[T]) Iter() []*T {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	return s.v
 }
 
