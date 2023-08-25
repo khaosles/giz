@@ -15,14 +15,13 @@ import (
 */
 
 // Delete 删除文件并删除{tier}层空文件夹
-func Delete(path string, tier int) {
+func Delete(path string, tier int) error {
 	if tier < 0 {
 		tier = 0
 	}
 	err := os.Remove(path)
 	if err != nil {
-		glog.Error(err)
-		return
+		return err
 	}
 	for i := 0; i < tier; i++ {
 		path = Dirname(path)
@@ -31,7 +30,7 @@ func Delete(path string, tier int) {
 			break
 		}
 	}
-	return
+	return nil
 }
 
 func removeEmptyDir(dir string) bool {
