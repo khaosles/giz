@@ -106,6 +106,12 @@ func ExecSuccess(err error, code int, msg string) {
 	}
 }
 
+func Exec(err error, code int) {
+	if err != nil {
+		panic(xerror.NewApiError(xerror.WithCode(code), xerror.WithMsg(err.Error())))
+	}
+}
+
 func CheckCount(count int, code int, msg string) {
 	if count < 1 {
 		panic(xerror.NewApiError(xerror.WithCode(code), xerror.WithMsg(msg)))
